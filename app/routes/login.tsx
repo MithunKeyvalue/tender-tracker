@@ -10,6 +10,22 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Check, Shield, Zap } from "lucide-react";
 import { Footer } from "~/components/footer";
+import { 
+  getUserByEmail, 
+  verifyPassword, 
+  createSession, 
+  createSessionCookie,
+  getSessionFromCookie,
+  getSession,
+  getUserById
+} from "~/lib/auth.server";
+import { z } from "zod";
+
+const LoginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(1, "Password is required"),
+  remember: z.string().optional(),
+});
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -20,20 +36,62 @@ export function meta({}: Route.MetaArgs) {
 
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
-  const email = formData.get("email");
-  const password = formData.get("password");
+  const data = Object.fromEntries(formData);
 
-  // Mock authentication - accept any email/password
-  if (email && password) {
-    // In a real app, you would validate credentials here
-    return redirect("/dashboard?login=success");
+  try {
+    const validatedData = LoginSchema.parse(data);
+    
+    // Find user by email
+    const user = await getUserByEmail(validatedData.email);
+    if (!user) {
+      return { error: "Invalid email or password" };
+    }
+    
+    // Verify password
+    const isValidPassword = await verifyPassword(validatedData.password, user.passwordHash);
+    if (!isValidPassword) {
+      return { error: "Invalid email or password" };
+    }
+    
+    // Check if user is active
+    if (!user.isActive) {
+      return { error: "Your account has been disabled. Please contact support." };
+    }
+    
+    // Create session
+    const session = createSession(user.id);
+    const cookie = createSessionCookie(session.token);
+    
+    // Redirect to dashboard
+    return redirect("/dashboard", {
+      headers: {
+        "Set-Cookie": cookie,
+      },
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return { error: error.issues[0].message };
+    }
+    console.error("Login error:", error);
+    return { error: "An error occurred. Please try again." };
   }
-
-  return { error: "Please provide both email and password" };
 }
 
-export async function loader() {
+export async function loader({ request }: Route.LoaderArgs) {
   // Check if already logged in
+  const cookieHeader = request.headers.get("Cookie");
+  const sessionToken = getSessionFromCookie(cookieHeader);
+  
+  if (sessionToken) {
+    const session = getSession(sessionToken);
+    if (session) {
+      const user = await getUserById(session.userId);
+      if (user && user.isActive) {
+        return redirect("/dashboard");
+      }
+    }
+  }
+  
   return null;
 }
 

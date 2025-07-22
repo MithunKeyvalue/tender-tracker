@@ -10,6 +10,10 @@ import { MyContractsPage } from "~/containers/my-contracts-page";
 import { BrowseTendersPage } from "~/containers/browse-tenders-page";
 import { NotificationsPage } from "~/containers/notifications-page";
 import { SettingsPage } from "~/containers/settings-page";
+import { requireAuth } from "~/lib/auth.server";
+import { database } from "database/context";
+import { tenders, savedTenders, tenderApplications, contractors } from "database/schema";
+import { eq, desc, sql } from "drizzle-orm";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -19,28 +23,84 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({ request }: Route.LoaderArgs) {
-  // Check for login success from query params
-  const url = new URL(request.url);
-  const loginSuccess = url.searchParams.get("login") === "success";
+  // Require authentication
+  const { user } = await requireAuth(request);
+  const db = database();
   
-  return { loginSuccess };
+  // Get user's contractor profile if they have one
+  let contractorProfile = null;
+  if (user.role === "contractor") {
+    const contractor = await db
+      .select()
+      .from(contractors)
+      .where(eq(contractors.userId, user.id))
+      .limit(1);
+    contractorProfile = contractor[0] || null;
+  }
+  
+  // Get statistics
+  const stats = {
+    activeTenders: 0,
+    savedTenders: 0,
+    submittedApplications: 0,
+    notifications: 12, // Placeholder for now
+  };
+  
+  // Count active tenders
+  const [activeTendersCount] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(tenders)
+    .where(eq(tenders.status, "published"));
+  stats.activeTenders = Number(activeTendersCount?.count || 0);
+  
+  // Count saved tenders for this user
+  const [savedTendersCount] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(savedTenders)
+    .where(eq(savedTenders.userId, user.id));
+  stats.savedTenders = Number(savedTendersCount?.count || 0);
+  
+  // Count submitted applications if contractor
+  if (contractorProfile) {
+    const [applicationsCount] = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(tenderApplications)
+      .where(eq(tenderApplications.contractorId, contractorProfile.id));
+    stats.submittedApplications = Number(applicationsCount?.count || 0);
+  }
+  
+  // Get recent tenders for display
+  const recentTenders = await db
+    .select({
+      id: tenders.id,
+      title: tenders.title,
+      organization: tenders.organization,
+      estimatedValue: tenders.estimatedValue,
+      submissionDeadline: tenders.submissionDeadline,
+      status: tenders.status,
+    })
+    .from(tenders)
+    .where(eq(tenders.status, "published"))
+    .orderBy(desc(tenders.publishedDate))
+    .limit(5);
+  
+  return { 
+    user: {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role,
+    },
+    contractorProfile,
+    stats,
+    recentTenders,
+  };
 }
 
 export default function Dashboard({ loaderData }: Route.ComponentProps) {
   const [activeTab, setActiveTab] = useState("dashboard");
-
-  useEffect(() => {
-    // Set login state if coming from successful login
-    if (loaderData.loginSuccess) {
-      sessionStorage.setItem("isLoggedIn", "true");
-    }
-    
-    // Check if user is logged in
-    const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
-    if (!isLoggedIn) {
-      window.location.href = "/login";
-    }
-  }, [loaderData.loginSuccess]);
+  const { user, stats } = loaderData;
 
 
   const getPageTitle = () => {
@@ -99,7 +159,7 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
       case "dashboard":
         return (
           <>
-            <StatsCardSection />
+            <StatsCardSection stats={stats} />
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
               <div className="xl:col-span-2">
                 <MatchingContractsSection />
@@ -126,7 +186,7 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="min-h-screen bg-background flex">
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} user={user} />
 
       <div className="flex-1 flex flex-col">
         <header className="bg-card shadow-sm border-b border-border">
@@ -138,7 +198,12 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                   <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-chart-1 bg-clip-text text-transparent leading-tight">
                     {getPageTitle()}
                   </h1>
-                  <p className="text-sm text-muted-foreground mt-0.5">{getPageDescription()}</p>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    {activeTab === "dashboard" 
+                      ? `Welcome back, ${user.firstName}! Here's what's happening with your contracts.`
+                      : getPageDescription()
+                    }
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -152,7 +217,7 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                     >
                       <Bell className="w-5 h-5" />
                       <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
-                        12
+                        {stats.notifications}
                       </span>
                     </Button>
                     <Button variant="gradient" size="default" className="h-10">

@@ -2,7 +2,17 @@ import { Badge, User, Settings, LogOut, ChevronDown } from 'lucide-react'
 import React, { useState, useRef, useEffect } from 'react'
 import { SidebarItems } from '~/constants/sidenav'
 
-export const Sidebar = ({ setActiveTab, activeTab }: { setActiveTab: (tab: string) => void, activeTab: string }) => {
+interface SidebarProps {
+  setActiveTab: (tab: string) => void;
+  activeTab: string;
+  user?: {
+    firstName: string;
+    lastName: string;
+    role: string;
+  };
+}
+
+export const Sidebar = ({ setActiveTab, activeTab, user }: SidebarProps) => {
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -20,8 +30,8 @@ export const Sidebar = ({ setActiveTab, activeTab }: { setActiveTab: (tab: strin
   }, []);
 
   const handleLogout = () => {
-    sessionStorage.removeItem("isLoggedIn");
-    window.location.href = "/";
+    // Clear session and redirect to login
+    window.location.href = "/logout";
   };
 
   return (
@@ -73,8 +83,12 @@ export const Sidebar = ({ setActiveTab, activeTab }: { setActiveTab: (tab: strin
               <User className="w-5 h-5 text-sidebar-primary-foreground" />
             </div>
             <div className="flex-1">
-              <p className="font-medium text-sidebar-foreground">John Contractor</p>
-              <p className="text-sm text-sidebar-foreground/70">Premium Plan</p>
+              <p className="font-medium text-sidebar-foreground">
+                {user ? `${user.firstName} ${user.lastName}` : 'User'}
+              </p>
+              <p className="text-sm text-sidebar-foreground/70">
+                {user?.role === 'contractor' ? 'Contractor' : user?.role === 'admin' ? 'Admin' : 'User'}
+              </p>
             </div>
             <ChevronDown className={`w-4 h-4 text-sidebar-foreground/70 transition-transform duration-200 ${showProfileDropdown ? 'rotate-180' : ''}`} />
           </div>

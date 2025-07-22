@@ -1,5 +1,5 @@
 import { Header } from "@/components/header";
-import { Form, Link } from "react-router";
+import { Form, Link, redirect } from "react-router";
 import type { Route } from "../+types/root";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,82 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Check, Zap } from "lucide-react";
 import { Footer } from "~/components/footer";
+import { database } from "database/context";
+import { users, contractors } from "database/schema";
+import { hashPassword, createSession, createSessionCookie } from "~/lib/auth.server";
+import { z } from "zod";
+import { eq } from "drizzle-orm";
+
+const SignupSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  workEmail: z.string().email("Invalid email address"),
+  companyName: z.string().min(1, "Company name is required"),
+  businessCategory: z.string().min(1, "Business category is required"),
+  terms: z.string().optional(),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
+
+export async function action({ request }: Route.ActionArgs) {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  const db = database();
+  
+  try {
+    const validatedData = SignupSchema.parse(data);
+    
+    // Check if user already exists
+    const existingUser = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, validatedData.workEmail))
+      .limit(1);
+      
+    if (existingUser.length > 0) {
+      return { error: "An account with this email already exists" };
+    }
+    
+    // Hash password
+    const passwordHash = await hashPassword(validatedData.password);
+    
+    // Create user with contractor role
+    const [newUser] = await db
+      .insert(users)
+      .values({
+        email: validatedData.workEmail,
+        passwordHash,
+        firstName: validatedData.firstName,
+        lastName: validatedData.lastName,
+        role: "contractor",
+      })
+      .returning();
+      
+    // Create contractor profile
+    await db
+      .insert(contractors)
+      .values({
+        userId: newUser.id,
+        companyName: validatedData.companyName,
+      });
+      
+    // Create session
+    const session = createSession(newUser.id);
+    const cookie = createSessionCookie(session.token);
+    
+    // Redirect to dashboard
+    return redirect("/dashboard", {
+      headers: {
+        "Set-Cookie": cookie,
+      },
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return { error: error.issues[0].message };
+    }
+    console.error("Signup error:", error);
+    return { error: "Failed to create account. Please try again." };
+  }
+}
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -17,7 +93,10 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Signup() {
+export default function Signup({ actionData }: Route.ComponentProps) {
+  const error = actionData && typeof actionData === 'object' && 'error' in actionData 
+    ? (actionData as { error: string }).error 
+    : null;
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-blue-50 to-indigo-100">
       <Header />
@@ -82,6 +161,12 @@ export default function Signup() {
               </CardHeader>
               
               <CardContent className="space-y-4">
+                {error && (
+                  <div className="p-3 rounded-md bg-red-50 border border-red-200">
+                    <p className="text-sm text-red-600">{error}</p>
+                  </div>
+                )}
+                
                 <Form method="post" className="space-y-4">
                   {/* First Name & Last Name */}
                   <div className="grid grid-cols-2 gap-3">
@@ -141,6 +226,23 @@ export default function Signup() {
                       className="border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                       required
                     />
+                  </div>
+                  
+                  {/* Password */}
+                  <div className="space-y-2">
+                    <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                      Password *
+                    </Label>
+                    <Input
+                      type="password"
+                      id="password"
+                      name="password"
+                      placeholder="••••••••"
+                      className="border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+                      minLength={8}
+                      required
+                    />
+                    <p className="text-xs text-gray-500">Must be at least 8 characters</p>
                   </div>
                   
                   {/* Business Category */}

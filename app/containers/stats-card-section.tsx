@@ -1,8 +1,47 @@
 import React from 'react'
 import { Card, CardContent } from '~/components/ui/card'
-import { statsCards } from '~/constants/data'
+import { BarChart3, Award, TrendingUp, Calendar } from 'lucide-react'
 
-export const StatsCardSection = () => {
+interface StatsCardSectionProps {
+  stats: {
+    activeTenders: number;
+    savedTenders: number;
+    submittedApplications: number;
+    notifications: number;
+  };
+}
+
+export const StatsCardSection = ({ stats }: StatsCardSectionProps) => {
+  const statsCards = [
+    {
+      icon: BarChart3,
+      value: stats.activeTenders.toString(),
+      label: "Active Tenders",
+      trend: "+12%",
+      positive: true,
+    },
+    {
+      icon: Award,
+      value: stats.submittedApplications.toString(),
+      label: "Applications",
+      trend: "+8%",
+      positive: true,
+    },
+    {
+      icon: TrendingUp,
+      value: stats.savedTenders.toString(),
+      label: "Saved Tenders",
+      trend: "+24%",
+      positive: true,
+    },
+    {
+      icon: Calendar,
+      value: stats.notifications.toString(),
+      label: "Notifications",
+      trend: "5 New",
+      positive: false,
+    }
+  ];
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
     {statsCards.map((stat, index) => (
