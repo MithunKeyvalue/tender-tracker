@@ -27,12 +27,14 @@ export const Sidebar = ({ setActiveTab, activeTab }: { setActiveTab: (tab: strin
   return (
     <div className="w-64 bg-sidebar shadow-sm border-r border-sidebar-border flex flex-col">
         {/* Logo */}
-        <div className="p-6 border-b border-sidebar-border">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-sidebar-primary to-sidebar-primary/60 rounded-xl flex items-center justify-center shadow-lg">
+        <div className="h-20 flex items-center px-6 border-b border-sidebar-border">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-sidebar-primary to-sidebar-primary/60 rounded-xl flex items-center justify-center shadow-md flex-shrink-0">
               <span className="text-sidebar-primary-foreground font-bold text-lg">TF</span>
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-sidebar-primary to-sidebar-primary/70 bg-clip-text text-transparent">TenderFlow</span>
+            <span className="text-xl font-bold bg-gradient-to-r from-sidebar-primary to-sidebar-primary/70 bg-clip-text text-transparent">
+              TenderFlow
+            </span>
           </div>
         </div>
 

@@ -129,37 +129,39 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       <div className="flex-1 flex flex-col">
-        <header className="bg-card shadow-sm border-b border-border px-8 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              {React.createElement(getPageIcon(), { className: "w-8 h-8 text-primary" })}
-              <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-chart-1 bg-clip-text text-transparent">
-                  {getPageTitle()}
-                </h1>
-                <p className="text-muted-foreground mt-1">{getPageDescription()}</p>
+        <header className="bg-card shadow-sm border-b border-border">
+          <div className="px-8 py-4">
+            <div className="flex items-center justify-between h-16">
+              <div className="flex items-center gap-4">
+                {React.createElement(getPageIcon(), { className: "w-7 h-7 text-primary flex-shrink-0" })}
+                <div>
+                  <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-chart-1 bg-clip-text text-transparent leading-tight">
+                    {getPageTitle()}
+                  </h1>
+                  <p className="text-sm text-muted-foreground mt-0.5">{getPageDescription()}</p>
+                </div>
               </div>
-            </div>
-            <div className="flex items-center gap-4">
-              {activeTab === "dashboard" && (
-                <>
-                  <Button 
-                    onClick={() => setActiveTab("notifications")}
-                    variant="ghost"
-                    size="icon"
-                    className="relative"
-                  >
-                    <Bell className="w-5 h-5" />
-                    <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
-                      12
-                    </span>
-                  </Button>
-                  <Button variant="gradient" size="default">
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add Alert
-                  </Button>
-                </>
-              )}
+              <div className="flex items-center gap-3">
+                {activeTab === "dashboard" && (
+                  <>
+                    <Button 
+                      onClick={() => setActiveTab("notifications")}
+                      variant="ghost"
+                      size="icon"
+                      className="relative h-10 w-10"
+                    >
+                      <Bell className="w-5 h-5" />
+                      <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
+                        12
+                      </span>
+                    </Button>
+                    <Button variant="gradient" size="default" className="h-10">
+                      <Plus className="w-4 h-4 mr-2" />
+                      Add Alert
+                    </Button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </header>
