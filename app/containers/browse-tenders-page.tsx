@@ -68,7 +68,7 @@ const mockTenders = [
 ];
 
 const categories = ["All", "Infrastructure", "Healthcare", "Technology", "Energy", "Education", "Agriculture"];
-const locations = ["All Locations", "Mumbai", "Pune", "Nashik", "Nagpur", "Thane"];
+const locations = ["All Locations", "Mumbai", "Pune", "Kerala", "Nagpur", "Thane"];
 const valueRanges = ["All Values", "< ₹1 Cr", "₹1-10 Cr", "₹10-50 Cr", "₹50-100 Cr", "> ₹100 Cr"];
 
 export const BrowseTendersPage = () => {
