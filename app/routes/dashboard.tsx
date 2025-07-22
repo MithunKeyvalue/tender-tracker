@@ -1,13 +1,18 @@
-import { Link, redirect } from "react-router";
 import type { Route } from "./+types/dashboard";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Bell, Plus } from "lucide-react";
+import { Sidebar } from "~/containers/sidebar";
+import { StatsCardSection } from "~/containers/stats-card-section";
+import { FilterContractsSection } from "~/containers/filter-contracts-section";
+import { MatchingContractsSection } from "~/containers/matching-contracts-section";
+import { RecentNotifications } from "~/containers/recent-notifications";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Dashboard - MyApp" },
-    { name: "description", content: "Your personal dashboard" },
+    { title: "Dashboard - TenderFlow" },
+    { name: "description", content: "Your TenderFlow dashboard" },
   ];
 }
 
@@ -20,6 +25,8 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 export default function Dashboard({ loaderData }: Route.ComponentProps) {
+  const [activeTab, setActiveTab] = useState("dashboard");
+
   useEffect(() => {
     // Set login state if coming from successful login
     if (loaderData.loginSuccess) {
@@ -38,103 +45,45 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
     window.location.href = "/";
   };
 
+
   return (
-    <div className="min-h-screen bg-background">
-      <header className="bg-card shadow">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
-            <nav className="flex gap-4">
-              <Button asChild variant="ghost">
-                <Link to="/">Home</Link>
-              </Button>
-              <Button
-                onClick={handleLogout}
-                variant="destructive"
-              >
-                Logout
-              </Button>
-            </nav>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gray-50 flex">
+      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      <main className="container mx-auto px-4 py-8">
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Welcome back!</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CardDescription>
-              You have successfully logged into your dashboard. This is a protected page that only logged-in users can access.
-            </CardDescription>
-          </CardContent>
-        </Card>
-
-        <div className="grid md:grid-cols-3 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Profile</CardTitle>
-              <CardDescription>Manage your account settings and preferences</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="link" className="p-0">
-                Edit Profile →
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Activity</CardTitle>
-              <CardDescription>View your recent activity and history</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="link" className="p-0">
-                View Activity →
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Settings</CardTitle>
-              <CardDescription>Configure your application preferences</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="link" className="p-0">
-                Manage Settings →
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Card className="mt-8 bg-primary/5">
-          <CardHeader>
-            <CardTitle>Quick Stats</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-4 gap-4">
-              <div className="text-center">
-                <p className="text-3xl font-bold text-primary">24</p>
-                <p className="text-sm text-muted-foreground">Active Projects</p>
-              </div>
-              <div className="text-center">
-                <p className="text-3xl font-bold text-primary">143</p>
-                <p className="text-sm text-muted-foreground">Tasks Completed</p>
-              </div>
-              <div className="text-center">
-                <p className="text-3xl font-bold text-primary">89%</p>
-                <p className="text-sm text-muted-foreground">Success Rate</p>
-              </div>
-              <div className="text-center">
-                <p className="text-3xl font-bold text-primary">12</p>
-                <p className="text-sm text-muted-foreground">Team Members</p>
-              </div>
+      <div className="flex-1 flex flex-col">
+        <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+              <p className="text-gray-600">Welcome back! Here's what's happening with your contracts.</p>
             </div>
-          </CardContent>
-        </Card>
-      </main>
+            <div className="flex items-center space-x-4">
+              <button className="relative p-2 text-gray-600 hover:text-gray-900">
+                <Bell className="w-6 h-6" />
+                <Badge className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                  1
+                </Badge>
+              </button>
+              <Button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Alert
+              </Button>
+            </div>
+          </div>
+        </header>
+
+        <div className="flex-1 flex">
+          <div className="flex-1 p-6 space-y-6">
+            <StatsCardSection />
+            <FilterContractsSection />
+            <div className="flex justify-between gap-4">
+              <MatchingContractsSection />
+              <RecentNotifications />
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
   );
 }
