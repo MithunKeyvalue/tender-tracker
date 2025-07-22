@@ -44,7 +44,7 @@ export const Sidebar = ({ setActiveTab, activeTab }: { setActiveTab: (tab: strin
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-left transition-all duration-200 ${
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-left transition-all duration-200 cursor-pointer ${
                 item.id === activeTab
                   ? "bg-gradient-to-r from-sidebar-primary to-sidebar-primary/70 text-sidebar-primary-foreground shadow-md"
                   : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
@@ -87,7 +87,7 @@ export const Sidebar = ({ setActiveTab, activeTab }: { setActiveTab: (tab: strin
                   setActiveTab('settings');
                   setShowProfileDropdown(false);
                 }}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-accent transition-colors duration-200"
+                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-accent transition-colors duration-200 cursor-pointer"
               >
                 <Settings className="w-4 h-4 text-muted-foreground" />
                 <span className="text-sm font-medium text-foreground">Settings</span>
@@ -95,7 +95,7 @@ export const Sidebar = ({ setActiveTab, activeTab }: { setActiveTab: (tab: strin
               <div className="border-t border-border" />
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-destructive/10 text-destructive transition-colors duration-200"
+                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-destructive/10 text-destructive transition-colors duration-200 cursor-pointer"
               >
                 <LogOut className="w-4 h-4" />
                 <span className="text-sm font-medium">Logout</span>

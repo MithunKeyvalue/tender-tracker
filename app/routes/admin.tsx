@@ -76,7 +76,7 @@ export default function AdminLayout() {
             
             <div className="flex items-center gap-4">
               {/* Notification Bell */}
-              <button className="relative p-2 hover:bg-muted rounded-lg transition-colors">
+              <button className="relative p-2 hover:bg-muted rounded-lg transition-colors cursor-pointer">
                 <Bell className="h-5 w-5 text-muted-foreground" />
                 <span className="absolute -top-0.5 -right-0.5 h-3 w-3 bg-destructive rounded-full flex items-center justify-center text-[10px] text-destructive-foreground">
                   3
@@ -84,7 +84,7 @@ export default function AdminLayout() {
               </button>
 
               {/* Profile */}
-              <button className="flex items-center gap-3 p-2 hover:bg-muted rounded-lg transition-colors">
+              <button className="flex items-center gap-3 p-2 hover:bg-muted rounded-lg transition-colors cursor-pointer">
                 <div className="text-right">
                   <p className="text-sm font-medium text-foreground">John Admin</p>
                   <p className="text-xs text-muted-foreground">Administrator</p>
