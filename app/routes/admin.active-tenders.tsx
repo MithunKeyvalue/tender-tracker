@@ -187,6 +187,8 @@ export default function AdminActiveTenders() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
   const [isNotifying, setIsNotifying] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const selectedTenderData = mockTenders.find(t => t.id === selectedTender);
   
@@ -242,14 +244,20 @@ export default function AdminActiveTenders() {
     
     setIsNotifying(false);
     
+    // Show beautiful toast notification
+    setToastMessage(`🎉 Notifications sent to ${selectedContractors.length} contractors via ${selectedChannels.length} channels!`);
+    setShowToast(true);
+    
+    // Auto-hide toast after 4 seconds
+    setTimeout(() => {
+      setShowToast(false);
+    }, 4000);
+    
     // Reset for new workflow
     setCurrentStep(1);
     setSelectedTender(null);
     setSelectedContractors([]);
     setSelectedChannels([]);
-    
-    // In real app, show success notification
-    alert(`🎉 Notifications sent to ${selectedContractors.length} contractors via ${selectedChannels.length} channels!`);
   };
 
   const canProceedToStep2 = selectedTender !== null;
@@ -279,13 +287,13 @@ export default function AdminActiveTenders() {
         <div className="text-center space-y-4 animate-fade-in-up">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-violet-100 to-indigo-100 border border-violet-200/50">
             <Target className="h-4 w-4 text-violet-600" />
-            <span className="text-sm font-medium text-violet-700">Contractor Outreach Wizard</span>
+            <span className="text-sm font-medium text-violet-700">Multi-Channel Communication Hub</span>
           </div>
           <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-violet-800 to-indigo-900 bg-clip-text text-transparent">
-            Active Tenders & Contractor Outreach
+            Smart Contractor Outreach
           </h1>
           <p className="text-slate-600 max-w-2xl mx-auto">
-            Follow our 3-step wizard to select tenders, find contractors, and send targeted notifications
+            Intelligently match tenders with contractors and engage through phone, SMS, email & WhatsApp
           </p>
         </div>
 
@@ -668,6 +676,36 @@ export default function AdminActiveTenders() {
         </div>
       </div>
 
+      {/* Beautiful Toast Notification */}
+      {showToast && (
+        <div className="fixed top-4 right-4 z-50 animate-slide-in-toast">
+          <div className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-6 py-4 rounded-xl shadow-2xl border border-emerald-300/50 backdrop-blur-sm max-w-md">
+            <div className="flex items-center gap-3">
+              <div className="flex-shrink-0">
+                <CheckCircle className="h-6 w-6 text-white" />
+              </div>
+              <div className="flex-1">
+                <p className="font-semibold text-sm">{toastMessage}</p>
+                <p className="text-emerald-100 text-xs mt-1">Successfully delivered contractor notifications</p>
+              </div>
+              <button 
+                onClick={() => setShowToast(false)}
+                className="flex-shrink-0 text-emerald-200 hover:text-white transition-colors duration-200"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            {/* Progress bar */}
+            <div className="mt-3 w-full bg-emerald-600/30 rounded-full h-1">
+              <div className="bg-white/60 h-1 rounded-full animate-progress-bar"></div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Custom animations */}
       <style>{`
         @keyframes fade-in-up {
@@ -711,6 +749,26 @@ export default function AdminActiveTenders() {
             opacity: 1;
           }
         }
+
+        @keyframes slide-in-toast {
+          from {
+            opacity: 0;
+            transform: translateX(100%);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes progress-bar {
+          from {
+            width: 100%;
+          }
+          to {
+            width: 0%;
+          }
+        }
         
         .animate-fade-in-up {
           animation: fade-in-up 0.8s ease-out;
@@ -728,6 +786,14 @@ export default function AdminActiveTenders() {
         
         .animate-fade-in {
           animation: fade-in 0.8s ease-out;
+        }
+
+        .animate-slide-in-toast {
+          animation: slide-in-toast 0.5s ease-out;
+        }
+
+        .animate-progress-bar {
+          animation: progress-bar 4s linear;
         }
       `}</style>
     </div>

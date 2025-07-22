@@ -3,23 +3,15 @@ import {
   Bell,
   ChevronRight,
   FileText,
-  FileType,
   LayoutDashboard,
-  MessageSquare,
-  Settings,
-  Sparkles,
-  Users
+  Sparkles
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router";
 
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { name: "Contractors", href: "/admin/contractors", icon: Users },
-  { name: "Active Tenders", href: "/admin/active-tenders", icon: FileText },
-  { name: "Messages Sent", href: "/admin/messages-sent", icon: MessageSquare },
-  { name: "Templates", href: "/admin/templates", icon: FileType },
-  { name: "Settings", href: "/admin/settings", icon: Settings },
+  { name: "Outreach", href: "/admin/active-tenders", icon: FileText },
 ];
 
 export default function AdminLayout() {
@@ -65,7 +57,7 @@ export default function AdminLayout() {
               </div>
               <div>
                 <h1 className="text-xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
-                  TenderHub Admin
+                  TenderFlow Admin
                 </h1>
                 <p className="text-sm text-slate-600 mt-1 transition-all duration-300 group-hover:text-violet-600">
                   Government Tender Management
