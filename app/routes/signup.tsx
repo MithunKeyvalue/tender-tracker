@@ -101,7 +101,7 @@ export default function Signup({ actionData }: Route.ComponentProps) {
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-blue-50 to-indigo-100">
       <Header />
       
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
           {/* Left Content */}
           <div className="space-y-8">
@@ -114,8 +114,8 @@ export default function Signup({ actionData }: Route.ComponentProps) {
               <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                 Transform<br />
                 <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
-                  Your
-                </span><br />
+                  Your{" "}
+                </span>
                 <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
                   Business
                 </span>{" "}
@@ -171,7 +171,7 @@ export default function Signup({ actionData }: Route.ComponentProps) {
                   {/* First Name & Last Name */}
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-2">
-                      <Label htmlFor="firstName" className="text-sm font-medium text-gray-700">
+                      <Label htmlFor="firstName" className="text-[12px] font-medium text-gray-700">
                         First Name *
                       </Label>
                       <Input
@@ -184,7 +184,7 @@ export default function Signup({ actionData }: Route.ComponentProps) {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="lastName" className="text-sm font-medium text-gray-700">
+                      <Label htmlFor="lastName" className="text-[12px] font-medium text-gray-700">
                         Last Name *
                       </Label>
                       <Input
@@ -200,7 +200,7 @@ export default function Signup({ actionData }: Route.ComponentProps) {
                   
                   {/* Work Email */}
                   <div className="space-y-2">
-                    <Label htmlFor="workEmail" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="workEmail" className="text-[12px] font-medium text-gray-700">
                       Work Email *
                     </Label>
                     <Input
@@ -215,7 +215,7 @@ export default function Signup({ actionData }: Route.ComponentProps) {
                   
                   {/* Company Name */}
                   <div className="space-y-2">
-                    <Label htmlFor="companyName" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="companyName" className="text-[12px] font-medium text-gray-700">
                       Company Name *
                     </Label>
                     <Input
@@ -225,6 +225,20 @@ export default function Signup({ actionData }: Route.ComponentProps) {
                       placeholder="Your Company Ltd."
                       className="border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                       required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="companyUrl" className="text-[12px] font-medium text-gray-700">
+                      Company Website (Optional)
+                    </Label>
+                    <Input
+                      type="text"
+                      id="companyUrl"
+                      name="companyUrl"
+                      placeholder="https://www.yourcompany.com"
+                      className="border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+                      required={false}
                     />
                   </div>
                   
@@ -247,13 +261,13 @@ export default function Signup({ actionData }: Route.ComponentProps) {
                   
                   {/* Business Category */}
                   <div className="space-y-2">
-                    <Label htmlFor="businessCategory" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="businessCategory" className="text-[12px] font-medium text-gray-700">
                       Business Category *
                     </Label>
                     <select
                       id="businessCategory"
                       name="businessCategory"
-                      className="w-full px-3 py-2 border border-gray-200 rounded-md bg-background focus:border-blue-500 focus:ring-blue-500 focus:outline-none"
+                      className="w-full px-3 py-1 border border-gray-200 rounded-md bg-background focus:border-blue-500 focus:ring-blue-500 focus:outline-none h-8 text-[14px]"
                       required
                     >
                       <option value="">Select your category</option>

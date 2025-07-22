@@ -185,12 +185,12 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
 
 
   return (
-    <div className="min-h-screen bg-background flex">
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} user={user} />
+    <div className="h-screen bg-background">
+      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      <div className="flex-1 flex flex-col">
-        <header className="bg-card shadow-sm border-b border-border">
-          <div className="px-8 py-4">
+      <div className="ml-64 h-screen flex flex-col">
+        <header className="bg-card shadow-sm border-b border-border h-20">
+          <div className="px-8 py-2">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center gap-4">
                 {React.createElement(getPageIcon(), { className: "w-7 h-7 text-primary flex-shrink-0" })}
@@ -208,30 +208,17 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
               </div>
               <div className="flex items-center gap-3">
                 {activeTab === "dashboard" && (
-                  <>
-                    <Button 
-                      onClick={() => setActiveTab("notifications")}
-                      variant="ghost"
-                      size="icon"
-                      className="relative h-10 w-10"
-                    >
-                      <Bell className="w-5 h-5" />
-                      <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
-                        {stats.notifications}
-                      </span>
-                    </Button>
                     <Button variant="gradient" size="default" className="h-10">
                       <Plus className="w-4 h-4 mr-2" />
                       Add Alert
                     </Button>
-                  </>
                 )}
               </div>
             </div>
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto bg-muted/20">
+        <main className="flex-1 overflow-y-auto bg-muted/20">
           <div className="p-8 space-y-8">
             {renderContent()}
           </div>

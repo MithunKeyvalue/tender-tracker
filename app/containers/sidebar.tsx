@@ -35,7 +35,7 @@ export const Sidebar = ({ setActiveTab, activeTab, user }: SidebarProps) => {
   };
 
   return (
-    <div className="w-64 bg-sidebar shadow-sm border-r border-sidebar-border flex flex-col">
+    <div className="fixed left-0 top-0 h-screen w-64 bg-sidebar shadow-sm border-r border-sidebar-border flex flex-col z-50">
         {/* Logo */}
         <div className="h-20 flex items-center px-6 border-b border-sidebar-border">
           <div className="flex items-center gap-3">
@@ -49,12 +49,12 @@ export const Sidebar = ({ setActiveTab, activeTab, user }: SidebarProps) => {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 p-4 space-y-2">
+        <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
           {SidebarItems.map((item) => (
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-left transition-all duration-200 ${
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-left transition-all duration-200 cursor-pointer ${
                 item.id === activeTab
                   ? "bg-gradient-to-r from-sidebar-primary to-sidebar-primary/70 text-sidebar-primary-foreground shadow-md"
                   : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
@@ -101,7 +101,7 @@ export const Sidebar = ({ setActiveTab, activeTab, user }: SidebarProps) => {
                   setActiveTab('settings');
                   setShowProfileDropdown(false);
                 }}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-accent transition-colors duration-200"
+                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-accent transition-colors duration-200 cursor-pointer"
               >
                 <Settings className="w-4 h-4 text-muted-foreground" />
                 <span className="text-sm font-medium text-foreground">Settings</span>
@@ -109,7 +109,7 @@ export const Sidebar = ({ setActiveTab, activeTab, user }: SidebarProps) => {
               <div className="border-t border-border" />
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-destructive/10 text-destructive transition-colors duration-200"
+                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-destructive/10 text-destructive transition-colors duration-200 cursor-pointer"
               >
                 <LogOut className="w-4 h-4" />
                 <span className="text-sm font-medium">Logout</span>

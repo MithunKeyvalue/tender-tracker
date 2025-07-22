@@ -86,7 +86,7 @@ export function Welcome({
               <button
                 type="submit"
                 disabled={navigation.state === "submitting"}
-                className="w-full h-10 px-3 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+                className="w-full h-10 px-3 text-white bg-blue-500 rounded-lg hover:bg-blue-600 cursor-pointer"
               >
                 Sign Guest Book
               </button>
