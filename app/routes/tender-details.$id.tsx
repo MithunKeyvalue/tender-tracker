@@ -313,7 +313,8 @@ export default function TenderDetails({ loaderData }: Route.ComponentProps) {
                       </p>
                     </div>
                   </div>
-                  <Button variant="gradient" className="w-full" size="lg">
+                  
+                  <Button variant="gradient" className="w-full" size="lg" onClick={() => window.open("https://etenders.kerala.gov.in/nicgep/app", "_blank")}>
                     Submit Application
                   </Button>
                   <p className="text-xs text-center text-muted-foreground mt-3">
