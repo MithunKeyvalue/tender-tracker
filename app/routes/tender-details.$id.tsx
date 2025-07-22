@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { contracts } from "~/constants/data";
+import { useState } from "react";
 
 export function meta({ params }: Route.MetaArgs) {
   return [
@@ -27,6 +28,8 @@ export async function loader({ params }: Route.LoaderArgs) {
 export default function TenderDetails({ loaderData }: Route.ComponentProps) {
   const navigate = useNavigate();
   const { tender } = loaderData;
+
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
   return (
     <div className="min-h-screen bg-muted/20">
@@ -53,7 +56,7 @@ export default function TenderDetails({ loaderData }: Route.ComponentProps) {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Button variant="ghost" size="icon" className="h-10 w-10">
+              <Button variant={isBookmarked ? "gradient" : "ghost"} size="icon" className="h-10 w-10" onClick={() => setIsBookmarked(!isBookmarked)}>
                 <Bookmark className="w-5 h-5" />
               </Button>
               <Button variant="ghost" size="icon" className="h-10 w-10">
