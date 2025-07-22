@@ -125,12 +125,12 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
 
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="h-screen bg-background">
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      <div className="flex-1 flex flex-col">
-        <header className="bg-card shadow-sm border-b border-border">
-          <div className="px-8 py-4">
+      <div className="ml-64 h-screen flex flex-col">
+        <header className="bg-card shadow-sm border-b border-border h-20">
+          <div className="px-8 py-2">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center gap-4">
                 {React.createElement(getPageIcon(), { className: "w-7 h-7 text-primary flex-shrink-0" })}
@@ -166,7 +166,7 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto bg-muted/20">
+        <main className="flex-1 overflow-y-auto bg-muted/20">
           <div className="p-8 space-y-8">
             {renderContent()}
           </div>

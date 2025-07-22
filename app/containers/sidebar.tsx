@@ -25,7 +25,7 @@ export const Sidebar = ({ setActiveTab, activeTab }: { setActiveTab: (tab: strin
   };
 
   return (
-    <div className="w-64 bg-sidebar shadow-sm border-r border-sidebar-border flex flex-col">
+    <div className="fixed left-0 top-0 h-screen w-64 bg-sidebar shadow-sm border-r border-sidebar-border flex flex-col z-50">
         {/* Logo */}
         <div className="h-20 flex items-center px-6 border-b border-sidebar-border">
           <div className="flex items-center gap-3">
@@ -39,7 +39,7 @@ export const Sidebar = ({ setActiveTab, activeTab }: { setActiveTab: (tab: strin
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 p-4 space-y-2">
+        <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
           {SidebarItems.map((item) => (
             <button
               key={item.id}

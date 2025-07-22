@@ -23,9 +23,9 @@ export default function AdminLayout() {
   const location = useLocation();
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="h-screen bg-background">
       {/* Sidebar */}
-      <div className="w-64 bg-white border-r border-border">
+      <div className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-border z-50">
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="px-6 py-5 border-b border-border">
@@ -34,7 +34,7 @@ export default function AdminLayout() {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-4 py-6">
+          <nav className="flex-1 px-4 py-6 overflow-y-auto">
             <ul className="space-y-1">
               {navigation.map((item) => {
                 const isActive = location.pathname === item.href || 
@@ -62,7 +62,7 @@ export default function AdminLayout() {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className="ml-64 h-screen flex flex-col">
         {/* Top Bar */}
         <header className="bg-white border-b border-border px-6 py-4">
           <div className="flex items-center justify-between">
