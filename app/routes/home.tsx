@@ -87,7 +87,7 @@ export default function Home() {
                   placeholder="Enter your work email" 
                   className="max-w-xs"
                 />
-                <Button size="lg" className="bg-purple-600 hover:bg-purple-700">
+                <Button variant="gradient" size="lg">
                   Start 14-Day Free Trial
                 </Button>
               </div>
@@ -226,7 +226,7 @@ export default function Home() {
           <p className="text-xl text-white/90 mb-8">
             Join 500+ contractors who've already discovered the power of AI-driven tender matching
           </p>
-          <Button size="lg" variant="secondary" className="bg-white text-purple-600 hover:bg-gray-100">
+          <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-gray-100">
             Start Your 14-Day Free Trial
           </Button>
           

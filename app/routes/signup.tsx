@@ -182,7 +182,9 @@ export default function Signup() {
                   {/* Submit Button */}
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600 text-white border-0 rounded-full py-3 text-base font-semibold"
+                    variant="gradient"
+                    size="lg"
+                    className="w-full rounded-full font-semibold"
                   >
                     Start Free Trial →
                   </Button>

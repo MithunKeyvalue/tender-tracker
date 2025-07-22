@@ -155,7 +155,9 @@ export default function Login({ actionData }: Route.ComponentProps) {
                   {/* Submit Button */}
                   <Button 
                     type="submit" 
-                    className="cursor-pointer w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white border-0 rounded-full py-3 text-base font-semibold"
+                    variant="gradient"
+                    size="lg"
+                    className="w-full rounded-full font-semibold"
                   >
                     Sign In →
                   </Button>

@@ -24,7 +24,7 @@ export function Header() {
             >
               Login
             </Link>
-            <Button asChild className="bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600 text-white border-0 rounded-full px-6 py-2">
+            <Button asChild variant="gradient" size="default" className="rounded-full">
               <Link to="/signup">Start Free Trial</Link>
             </Button>
           </nav>
