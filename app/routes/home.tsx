@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Check, TrendingUp, Clock, Search, Target, Megaphone, Twitter, Linkedin, Facebook } from "lucide-react";
+import { Footer } from "~/components/footer";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -240,58 +241,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-300 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold">TF</span>
-                </div>
-                <span className="text-xl font-bold text-white">TenderFlow</span>
-              </div>
-              <p className="text-sm mb-4">
-                AI-powered tender discovery platform helping contractors win more government contracts.
-              </p>
-              <div className="flex gap-4">
-                <Twitter className="h-5 w-5 cursor-pointer hover:text-white" />
-                <Linkedin className="h-5 w-5 cursor-pointer hover:text-white" />
-                <Facebook className="h-5 w-5 cursor-pointer hover:text-white" />
-              </div>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold text-white mb-4">Product</h4>
-              <ul className="space-y-2 text-sm">
-                <li><Link to="/features" className="hover:text-white">Features</Link></li>
-                <li><Link to="/pricing" className="hover:text-white">Pricing</Link></li>
-                <li><Link to="/api" className="hover:text-white">API</Link></li>
-                <li><Link to="/integrations" className="hover:text-white">Integrations</Link></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold text-white mb-4">Company</h4>
-              <ul className="space-y-2 text-sm">
-                <li><Link to="/about" className="hover:text-white">About Us</Link></li>
-                <li><Link to="/careers" className="hover:text-white">Careers</Link></li>
-                <li><Link to="/blog" className="hover:text-white">Blog</Link></li>
-                <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold text-white mb-4">Support</h4>
-              <ul className="space-y-2 text-sm">
-                <li><Link to="/help" className="hover:text-white">Help Center</Link></li>
-                <li><Link to="/documentation" className="hover:text-white">Documentation</Link></li>
-                <li><Link to="/status" className="hover:text-white">Status</Link></li>
-                <li><Link to="/privacy" className="hover:text-white">Privacy Policy</Link></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
