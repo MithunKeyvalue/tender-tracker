@@ -15,6 +15,49 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
   return (
     <div className="min-h-screen">
+      {/* Header */}
+      <header className="relative bg-white/95 backdrop-blur-sm border-b border-gray-200/50 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">TF</span>
+              </div>
+              <span className="text-xl font-bold text-gray-900">TenderFlow</span>
+            </div>
+            
+            {/* Navigation */}
+            <nav className="hidden md:flex items-center gap-8">
+              <Link to="/features" className="text-gray-600 hover:text-gray-900 font-medium">
+                Features
+              </Link>
+              <Link to="/pricing" className="text-gray-600 hover:text-gray-900 font-medium">
+                Pricing
+              </Link>
+              <Link to="/how-it-works" className="text-gray-600 hover:text-gray-900 font-medium">
+                How It Works
+              </Link>
+              <Link to="/resources" className="text-gray-600 hover:text-gray-900 font-medium">
+                Resources
+              </Link>
+            </nav>
+            
+            {/* Actions */}
+            <div className="flex items-center gap-4">
+              <Link to="/login">
+                <Button variant="ghost" className="text-gray-600 hover:text-gray-900">
+                  Login
+                </Button>
+              </Link>
+              <Button className="bg-purple-600 hover:bg-purple-700">
+                Start Free Trial
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-100/20 via-purple-100/20 to-pink-100/20" />
