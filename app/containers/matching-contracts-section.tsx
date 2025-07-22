@@ -60,7 +60,11 @@ export const MatchingContractsSection = () => {
                       {contract.daysLeft}
                     </Badge>
                   </div>
-                  <Button variant="gradient" size="default">
+                  <Button 
+                    variant="gradient" 
+                    size="default"
+                    onClick={() => window.location.href = `/tender-details/${index}`}
+                  >
                     View Details
                   </Button>
                 </div>
