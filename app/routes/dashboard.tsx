@@ -143,23 +143,10 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
               </div>
               <div className="flex items-center gap-3">
                 {activeTab === "dashboard" && (
-                  <>
-                    <Button 
-                      onClick={() => setActiveTab("notifications")}
-                      variant="ghost"
-                      size="icon"
-                      className="relative h-10 w-10"
-                    >
-                      <Bell className="w-5 h-5" />
-                      <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
-                        12
-                      </span>
-                    </Button>
                     <Button variant="gradient" size="default" className="h-10">
                       <Plus className="w-4 h-4 mr-2" />
                       Add Alert
                     </Button>
-                  </>
                 )}
               </div>
             </div>
