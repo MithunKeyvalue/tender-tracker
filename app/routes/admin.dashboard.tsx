@@ -5,15 +5,14 @@ import { cn } from "@/lib/utils";
 import {
   ArrowUpRight,
   Award,
+  Building2,
   Clock,
-  Eye,
-  MessageSquare,
-  Phone,
-  Send,
+  Database,
+  FileText,
+  IndianRupee,
   Target,
   TrendingUp,
-  Users,
-  Zap
+  Users
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -25,64 +24,34 @@ const metrics = [
     trend: "up",
     icon: Users,
     gradient: "from-blue-500 to-cyan-500",
-    description: "Active registered contractors",
+    description: "Registered contractors",
   },
   {
-    title: "Verified Phones",
-    value: "2,134",
-    change: "+8%",
+    title: "Active Tenders",
+    value: "156",
+    change: "+23%",
     trend: "up",
-    icon: Phone,
+    icon: FileText,
     gradient: "from-emerald-500 to-teal-500",
-    description: "Verified contact numbers",
+    description: "Live tender opportunities",
   },
   {
-    title: "SMS Opt-ins",
-    value: "1,892",
-    change: "+15%",
+    title: "Total Value",
+    value: "₹4,250Cr",
+    change: "+18%",
     trend: "up",
-    icon: MessageSquare,
+    icon: IndianRupee,
     gradient: "from-violet-500 to-purple-500",
-    description: "Notification subscribers",
+    description: "Combined tender value",
   },
   {
-    title: "Open Rate",
-    value: "78%",
-    change: "+5%",
+    title: "Organizations",
+    value: "89",
+    change: "+7%",
     trend: "up",
-    icon: Eye,
+    icon: Building2,
     gradient: "from-orange-500 to-red-500",
-    description: "Message engagement rate",
-  },
-];
-
-const recentOutreach = [
-  {
-    id: 1,
-    contractorName: "ABC Construction Ltd.",
-    phone: "+1 (555) 123-4567",
-    tenderName: "Highway Expansion Project",
-    status: "delivered",
-    avatar: "AC",
-    time: "2 mins ago"
-  },
-  {
-    id: 2,
-    contractorName: "XYZ Infrastructure",
-    phone: "+1 (555) 987-6543",
-    tenderName: "Bridge Renovation Tender",
-    status: "delivered",
-    avatar: "XI",
-    time: "15 mins ago"
-  },
-  {
-    id: 3,
-    contractorName: "BuildRight Corp",
-    phone: "+1 (555) 456-7890",
-    tenderName: "School Building Contract",
-    status: "failed",
-    avatar: "BC",
-    time: "1 hour ago"
+    description: "Government departments",
   },
 ];
 
@@ -93,7 +62,8 @@ const activeTenders = [
     deadline: "2025-02-15",
     priority: "high",
     value: "₹45.2Cr",
-    submissions: 23
+    submissions: 23,
+    department: "NHAI"
   },
   {
     id: 2,
@@ -101,16 +71,48 @@ const activeTenders = [
     deadline: "2025-02-20",
     priority: "medium",
     value: "₹28.5Cr",
-    submissions: 15
+    submissions: 15,
+    department: "Municipal Corporation"
   },
   {
     id: 3,
-    name: "Municipal Building Renovation",
-    deadline: "2025-02-28",
-    priority: "low",
-    value: "₹12.8Cr",
-    submissions: 8
+    name: "Smart City IoT Implementation",
+    deadline: "2025-03-10",
+    priority: "medium",
+    value: "₹15.8Cr",
+    submissions: 34,
+    department: "Smart City Mission"
   },
+  {
+    id: 4,
+    name: "Solar Power Plant - 50MW",
+    deadline: "2025-04-05",
+    priority: "high",
+    value: "₹125Cr",
+    submissions: 8,
+    department: "MSEDCL"
+  },
+];
+
+const systemStats = [
+  {
+    label: "Database Records",
+    value: "45,892",
+    icon: Database,
+    color: "text-blue-600"
+  },
+  {
+    label: "Tender Categories",
+    value: "24",
+    icon: Target,
+    color: "text-emerald-600"
+  },
+  {
+    label: "Avg Tender Value",
+    value: "₹27.3Cr",
+    icon: TrendingUp,
+    color: "text-violet-600"
+  }
 ];
 
 export default function AdminDashboard() {
@@ -145,17 +147,17 @@ export default function AdminDashboard() {
       </div>
 
       <div className="p-6 space-y-8 relative z-10">
-        {/* Header with enhanced animation */}
+        {/* Header */}
         <div className="text-center space-y-4 animate-fade-in-up">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-violet-100 to-indigo-100 border border-violet-200/50">
             <Target className="h-4 w-4 text-violet-600" />
             <span className="text-sm font-medium text-violet-700">Admin Dashboard</span>
           </div>
           <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-violet-800 to-indigo-900 bg-clip-text text-transparent">
-            Dashboard Overview
+            TenderFlow Overview
           </h1>
           <p className="text-slate-600 max-w-2xl mx-auto">
-            Monitor contractor outreach and tender notifications with real-time analytics and insights
+            Monitor tender management system with real-time analytics and business insights
           </p>
         </div>
 
@@ -235,63 +237,31 @@ export default function AdminDashboard() {
           ))}
         </div>
 
-        {/* Enhanced Recent Outreach */}
+        {/* System Statistics */}
         <Card className="border-0 shadow-xl bg-white/60 backdrop-blur-sm overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5" />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-500/5 to-gray-500/5" />
           
-          <CardHeader className="flex flex-row items-center justify-between relative z-10">
-            <div className="space-y-2">
-              <CardTitle className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                <Zap className="h-5 w-5 text-violet-600" />
-                Recent Outreach
-              </CardTitle>
-              <p className="text-sm text-slate-600">Latest contractor communications</p>
-            </div>
-            <Button variant="ghost" size="sm" className="hover:bg-violet-100/50 hover:text-violet-700 transition-all duration-300 hover:scale-105">
-              View All
-              <ArrowUpRight className="h-4 w-4 ml-1" />
-            </Button>
+          <CardHeader className="relative z-10">
+            <CardTitle className="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <Database className="h-5 w-5 text-slate-600" />
+              System Statistics
+            </CardTitle>
+            <p className="text-sm text-slate-600">Key platform metrics and data insights</p>
           </CardHeader>
           
           <CardContent className="relative z-10">
-            <div className="space-y-4">
-              {recentOutreach.map((contact, index) => (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {systemStats.map((stat, index) => (
                 <div 
-                  key={contact.id} 
-                  className={cn(
-                    "flex items-center justify-between p-4 rounded-xl border border-white/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white/40 backdrop-blur-sm group animate-slide-in-right"
-                  )}
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  key={stat.label}
+                  className="flex items-center gap-4 p-4 rounded-xl bg-white/40 backdrop-blur-sm border border-white/50 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className={cn(
-                      "h-12 w-12 rounded-full bg-gradient-to-r flex items-center justify-center text-white font-semibold shadow-lg transition-transform duration-300 group-hover:scale-110",
-                      contact.status === "delivered" ? "from-emerald-500 to-teal-500" : "from-red-500 to-pink-500"
-                    )}>
-                      {contact.avatar}
-                    </div>
-                    <div className="space-y-1">
-                      <p className="font-semibold text-slate-900 group-hover:text-violet-700 transition-colors duration-300">
-                        {contact.contractorName}
-                      </p>
-                      <p className="text-sm text-slate-600">{contact.phone}</p>
-                      <p className="text-sm text-slate-500">{contact.tenderName}</p>
-                      <p className="text-xs text-slate-400">{contact.time}</p>
-                    </div>
+                  <div className="p-3 rounded-lg bg-gray-100/60 group-hover:bg-white/80 transition-colors duration-300">
+                    <stat.icon className={cn("h-6 w-6", stat.color)} />
                   </div>
-                  
-                  <div className="flex items-center gap-3">
-                    <Badge 
-                      variant={contact.status === "delivered" ? "default" : "destructive"}
-                      className={cn(
-                        "transition-all duration-300 hover:scale-105",
-                        contact.status === "delivered" 
-                          ? "bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/25" 
-                          : "bg-gradient-to-r from-red-500 to-pink-500 shadow-lg shadow-red-500/25"
-                      )}
-                    >
-                      {contact.status === "delivered" ? "Delivered" : "Failed"}
-                    </Badge>
+                  <div>
+                    <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
+                    <p className="text-sm text-slate-600">{stat.label}</p>
                   </div>
                 </div>
               ))}
@@ -303,12 +273,18 @@ export default function AdminDashboard() {
         <Card className="border-0 shadow-xl bg-white/60 backdrop-blur-sm overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-blue-500/5" />
           
-          <CardHeader className="relative z-10">
-            <CardTitle className="text-xl font-bold text-slate-900 flex items-center gap-2">
-              <Award className="h-5 w-5 text-emerald-600" />
-              Active Tenders
-            </CardTitle>
-            <p className="text-sm text-slate-600">Ongoing tender opportunities</p>
+          <CardHeader className="flex flex-row items-center justify-between relative z-10">
+            <div className="space-y-2">
+              <CardTitle className="text-xl font-bold text-slate-900 flex items-center gap-2">
+                <Award className="h-5 w-5 text-emerald-600" />
+                Active Tenders
+              </CardTitle>
+              <p className="text-sm text-slate-600">Current tender opportunities in the system</p>
+            </div>
+            <Button variant="ghost" size="sm" className="hover:bg-emerald-100/50 hover:text-emerald-700 transition-all duration-300 hover:scale-105">
+              View All
+              <ArrowUpRight className="h-4 w-4 ml-1" />
+            </Button>
           </CardHeader>
           
           <CardContent className="relative z-10">
@@ -327,6 +303,7 @@ export default function AdminDashboard() {
                         <p className="font-semibold text-slate-900 group-hover:text-emerald-700 transition-colors duration-300">
                           {tender.name}
                         </p>
+                        <p className="text-sm text-slate-600 font-medium">{tender.department}</p>
                         <div className="flex items-center gap-4">
                           <div className="flex items-center gap-2 text-sm text-slate-600">
                             <Clock className="h-4 w-4" />
@@ -352,40 +329,9 @@ export default function AdminDashboard() {
                       </div>
                     </div>
                   </div>
-                  
-                  <Button 
-                    size="sm" 
-                    className="ml-4 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-                  >
-                    <Send className="h-4 w-4 mr-2" />
-                    Push Notification
-                  </Button>
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Enhanced Bulk Alert Section */}
-        <Card className="border-0 shadow-xl bg-gradient-to-r from-violet-500/10 to-indigo-500/10 backdrop-blur-sm overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-violet-500/5 to-indigo-500/5" />
-          
-          <CardHeader className="relative z-10">
-            <CardTitle className="text-xl font-bold text-slate-900">Send Bulk Tender Alerts</CardTitle>
-            <p className="text-slate-600 mt-1">
-              Notify all opted-in contractors about new opportunities instantly
-            </p>
-          </CardHeader>
-          
-          <CardContent className="relative z-10">
-            <Button 
-              size="lg" 
-              className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 text-white"
-            >
-              <Send className="h-5 w-5 mr-2" />
-              Send New Tender Alert
-              <ArrowUpRight className="h-4 w-4 ml-2" />
-            </Button>
           </CardContent>
         </Card>
       </div>
@@ -403,17 +349,6 @@ export default function AdminDashboard() {
           }
         }
         
-        @keyframes slide-in-right {
-          from {
-            opacity: 0;
-            transform: translateX(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        
         @keyframes slide-in-left {
           from {
             opacity: 0;
@@ -427,11 +362,6 @@ export default function AdminDashboard() {
         
         .animate-fade-in-up {
           animation: fade-in-up 0.8s ease-out;
-        }
-        
-        .animate-slide-in-right {
-          animation: slide-in-right 0.6s ease-out forwards;
-          opacity: 0;
         }
         
         .animate-slide-in-left {
